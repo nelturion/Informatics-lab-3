@@ -5,7 +5,8 @@
 ## Цель работы
 
 Настроить сеть из трех виртуальных машин, Которая будет организована по следующей схеме:
-[картинка](./src/scheme.png)
+
+![Карта](./src/Карта сети.png)
 
 ## Ход работы
 
@@ -21,14 +22,14 @@
     К Kali подключен третий сетевой адаптер для обмена данными со второй сетью
 
     Интернет на каждой машине работает:
-    [internet ping](./src/pingGoogleInitial.png)
+    ![internet ping](./src/pingGoogleInitial.png)
 
 3. На адаптер каждой ВМ был задан соответствующий IP адрес с помощью команды:
 
     Kali:
     ```bash
-        sudo ifconfig eth0 192.168.80.1/30
-        sudo ifconfig eth1 192.168.81.1/30
+        sudo ifconfig eth1 192.168.80.1/30
+        sudo ifconfig eth2 192.168.81.1/30
     ```
 
     Bravo:
@@ -42,35 +43,39 @@
     ```
 4. Проверяем, что IP заданы и все готово к проверке пингованием (обмен ICMP пакетами)
 
-    [screenshot ip a](./src/ipA.png)
+    ![screenshot ip a](./src/ipA.png)
 
 5. (на всякий случай) Проверяем, что подключение к интенету не отвалилось:
 
-    [screenshot ping google](./src/pingGoogle2.png)
+    ![screenshot ping google](./src/pingGoogle2.png)
 
 6. Проверяем соединение Alpha-Bravo:
 
-    [A-B connection](./src/ABconnect.png)
+    ![A-B connection](./src/ABconnect.png)
 
     Так же должно работать и в обратную сторону - Bravo-Alpha:
-    [B-A connection](./src/BAconnect.png)
+    ![B-A connection](./src/BAconnect.png)
 
 7. Проверяем соединение Alpha-Charlie:
 
-    [A-C connection](./src/ACconnect.png)
+    ![A-C connection](./src/ACconnect.png)
 
     Так же должно работать и в обратную сторону - Charlie-Alpha:
-    [C-A connection](./src/CAconnect.png)
+    ![C-A connection](./src/CAconnect.png)
 
 8. Проверяем недоступность соединения Bravo-Charlie:
 
-    [B-C no connection](./src/BCnoway.png)
+    ![B-C no connection](./src/BCnoway.png)
 
     Так же должно не работать и в обратную сторону - Charlie-Bravo:
-    [C-B no connection](./src/CBnoway.png)
+    ![C-B no connection](./src/CBnoway.png)
 
-## Почему это работает?
+## Почему это работает? (Вывод)
 
 Потому что мы организовали две подсети в сети 192.168, между ними есть межсетевой экран (firewall), который не позволяет получить доступ от одного устройства к другому из разных подсетей. Это можно обойти с помощью особых правил для межсетевого экрана (с помощью утилиты iptables), но в лабораторной работе этого не требовалось.
 
 Сервер (машину Alpha) можно найти по двум адресам: 192.168.80.1 и 192.168.81.1, а подключенные к нему машины Bravo и Charlie можно найти по адресу 192.168.80.2 и 192.168.81.2 соответственно.
+
+Такой же результат (отсутствие доступа) мы получаем, если пингуем сервер в другой подсети:
+
+![all-together](./src/all.png)
